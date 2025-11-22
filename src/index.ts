@@ -10,12 +10,13 @@ const app: Application = express()
 // core middlewares
 app.use(cors())
 dotenv.config()
+app.use(express.json())
 
 // products routes
-app.use('/v1/products', ProductsRouter)
+app.use('/product', ProductsRouter)
 
 // review Routes
-app.use('/v1/review', ReviewRouter)
+app.use('/review', ReviewRouter)
 
 
 // test the server 

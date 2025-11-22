@@ -5,7 +5,7 @@ export const ReviewsController = {
     addReview: async (req: Request, res: Response) => {
         try {
             const payload = req.body
-            const result = ReviewServices.addReview(payload)
+            const result = await ReviewServices.addReview(payload)
             res.json({
                 success: true,
                 data: result
