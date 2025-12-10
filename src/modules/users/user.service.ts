@@ -6,11 +6,20 @@ const UserService = {
     return await UserModel.create(payload);
   },
 
+  getUserByEmail: async (email: string) => {
+    return await UserModel.findOne({ email });
+  },
+
+  getAllUsers: async () => {
+    return await UserModel.find();
+  },
+
+
   isExistUser: async (email: string) => {
     return await UserModel.findOne({ email });
   },
 
-  updateUserById: async (id: string, data: Partial<IUser>) => {
+  updateUserById: async (id: string, data: any) => {
     return await UserModel.findByIdAndUpdate(id, data, { new: true });
   },
 
