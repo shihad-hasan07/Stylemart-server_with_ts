@@ -23,7 +23,8 @@ const ProductsController = {
 
     getSingleProduct: async (req, res) => {
         try {
-            const result = await ProductServices.getSingleProduct(req.params.id);
+            const result = await ProductServices.getSingleProduct(req.params.productId);
+            console.log('result form single',req.params.productId);
             return apiSuccess(res, result);
         } catch (error) {
             return apiError(res, error, "Failed to fetch product");
