@@ -1,1 +1,0 @@
-{"version":3,"file":"reviews.interface.d.ts","sourceRoot":"","sources":["../../../../src/app/modules/reviews/reviews.interface.ts"],"names":[],"mappings":"AAEA,MAAM,WAAW,OAAO;IACpB,SAAS,EAAE,MAAM,CAAC;IAClB,UAAU,EAAE,MAAM,CAAC;IACnB,MAAM,EAAE,MAAM,CAAC;IACf,OAAO,EAAE,MAAM,CAAC;CACnB"}
