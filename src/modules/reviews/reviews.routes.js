@@ -1,19 +1,31 @@
 import { Router } from "express";
-import { ReviewsController } from "./reviews.controller.js";
+import ReviewController from "./reviews.controller.js";
 
 
-const router = Router()
+const router = Router();
 
-// add a review
-router.post('/add-review', ReviewsController.addReview)
+/**
+ * Create review
+ * POST /api/reviews
+ */
+router.post("/", ReviewController.addReview);
 
-// get all of the review according to the productId
-router.get('/:productId', ReviewsController.getReviewByProductID)
+/**
+ * Update review
+ * PATCH /api/reviews/:reviewId
+ */
+router.patch("/:reviewId", ReviewController.updateReview);
 
-// delete a review by reviewID
-router.delete('/:reviewId', ReviewsController.deleteReview)
+/**
+ * Delete review
+ * DELETE /api/reviews/:reviewId
+ */
+router.delete("/:reviewId", ReviewController.deleteReview);
 
-// update a review by reviwID
-router.patch('/:reviewId', ReviewsController.updateReview)
+/**
+ * Get reviews by product
+ * GET /api/reviews/:productId
+ */
+router.get("/:productId", ReviewController.getReviewsByProduct);
 
-export const ReviewRouter = router
+export default router;

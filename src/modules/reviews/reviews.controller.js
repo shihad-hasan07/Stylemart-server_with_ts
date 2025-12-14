@@ -1,89 +1,104 @@
 import { ReviewServices } from "./reviews.service.js";
+import { apiSuccess, apiError } from "../../utlis/apiResponse.js";
 
-export const ReviewsController = {
+const ReviewController = {
+    // create review
     addReview: async (req, res) => {
         try {
-            const payload = req.body;
-            const result = await ReviewServices.addReview(payload);
+            const result = await ReviewServices.addReview(req);
 
-            res.json({
-                success: true,
-                data: result
-            });
-
-        } catch (err) {
-            res.status(500).json({
-                success: false
-            });
-        }
-    },
-
-    getReviewByProductID: async (req, res) => {
-        try {
-            const { productId } = req.params;
-
-            if (!productId) {
-                res.status(400).json({ error: "productId is required" });
-                return;
-            }
-
-            const result = await ReviewServices.getReviewsByProductId(productId);
-
-            res.json({
-                success: true,
-                data: result
-            });
-
-        } catch (err) {
-            res.status(500).json({
-                success: false
-            });
-        }
-    },
-
-    deleteReview: async (req, res) => {
-        try {
-            const { reviewId } = req.params;
-
-            if (!reviewId) {
-                res.status(400).json({ error: "reviewId is required" });
-                return;
-            }
-
-            const result = await ReviewServices.deleteReview(reviewId);
-
-            res.json({
-                success: true,
-                data: result
-            });
-
+            return apiSuccess(
+                res,
+                result,
+                "Review added successfully"
+            );
         } catch (error) {
-            res.status(500).json({
-                success: false
-            });
+            if (error.code === 11000) {
+                return apiError(
+                    res,
+                    error,
+                    "You already reviewed this product"
+                );
+            }
+
+            return apiError(
+                res,
+                error,
+                "Failed to add review"
+            );
         }
     },
 
+    // update review
     updateReview: async (req, res) => {
         try {
             const { reviewId } = req.params;
 
-            if (!reviewId) {
-                res.status(400).json({ error: "reviewId is required" });
-                return;
+            const result = await ReviewServices.updateReview(
+                reviewId,
+                req
+            );
+
+            return apiSuccess(res, result, "Review updated");
+        } catch (error) {
+            return apiError(
+                res,
+                error,
+                "Failed to update review"
+            );
+        }
+    },
+
+    // delete review
+    deleteReview: async (req, res) => {
+        try {
+            const { reviewId } = req.params;
+            const { userId } = req.body; // ✅ auth নাই, body থেকে
+
+            const result = await ReviewServices.deleteReview(
+                reviewId,
+                userId
+            );
+
+            return apiSuccess(res, result, "Review deleted");
+        } catch (error) {
+            return apiError(
+                res,
+                error,
+                "Failed to delete review"
+            );
+        }
+    },
+
+    // get reviews by product
+    getReviewsByProduct: async (req, res) => {
+        try {
+            const { productId } = req.params;
+
+            if (!productId) {
+                return apiError(
+                    res,
+                    null,
+                    "productId is required",
+                );
             }
 
-            const result = await ReviewServices.updateReview(reviewId, req.body);
+            const result =
+                await ReviewServices.getReviewsByProduct(productId);
 
-            res.json({
-                success: true,
-                data: result
-            });
-
+            return apiSuccess(
+                res,
+                result,
+                "Product reviews fetched successfully"
+            );
         } catch (error) {
-            res.status(500).json({
-                success: false
-            });
+            return apiError(
+                res,
+                error,
+                "Failed to fetch product reviews"
+            );
         }
-    }
+    },
 };
+
+export default ReviewController;

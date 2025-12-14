@@ -3,7 +3,7 @@ import cors from "cors";
 
 import ProductsRouter from "./modules/products/products.routes.js";
 import UserRouter from "./modules/users/user.routes.js";
-import { ReviewRouter } from "./modules/reviews/reviews.routes.js";
+import ReviewRouter from "./modules/reviews/reviews.routes.js";
 
 const app = express();
 
