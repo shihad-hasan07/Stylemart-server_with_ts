@@ -20,7 +20,15 @@ router.get("/single/:productId", ProductsController.getSingleProduct);
 
 router.get("/multiple", ProductsController.getMultipleProduct);
 
-router.patch("/update/:productId", ProductsController.updateProduct);
+// router.patch("/update/:productId", ProductsController.updateProduct);
+
+router.patch("/update/:productId", verifyFirebaseToken_andUser, (req, res, next) => {
+    upload.array('images', 4)(req, res, (err) => {
+        if (err) return handleMulterError(err, req, res, next);
+        ProductsController.updateProduct(req, res);
+    });
+});
+
 
 router.delete("/delete/:productId", verifyFirebaseToken_andUser, requireRole('admin'), ProductsController.deleteProduct);
 

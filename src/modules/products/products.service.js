@@ -64,7 +64,6 @@ const ProductServices = {
         await product.deleteOne();
         return product;
     },
-
     updateProduct: async (productId, payload) => {
         const updated = await ProductsModel.findByIdAndUpdate(
             productId,
@@ -74,15 +73,16 @@ const ProductServices = {
 
         if (!updated) return null;
 
-        const productsForClient = updated.map(product => ({
-            ...product,
-            images: product.images.map(img =>
+        // Client er jonno image format correct kora
+        const productForClient = {
+            ...updated,
+            images: updated.images.map(img =>
                 typeof img === "string" ? img : img.url
             ),
-        }));
+        };
 
-        return productsForClient
-    }
+        return productForClient;
+    },
 };
 
 export default ProductServices;
